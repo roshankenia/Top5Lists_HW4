@@ -19,6 +19,21 @@ getLoggedIn = async (req, res) => {
   });
 };
 
+logoutUser = async(req, res) =>{
+  token = auth.deleteToken(req);
+  await res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      .status(200)
+      .json({
+        loggedIn: false,
+      })
+      .send();
+}
+
 loginUser = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -128,4 +143,5 @@ module.exports = {
   getLoggedIn,
   registerUser,
   loginUser,
+  logoutUser,
 };

@@ -30,6 +30,13 @@ function authManager() {
         }, process.env.JWT_SECRET);
     }
 
+    deleteToken = function(req){
+        let token = req.cookies.token;
+        token="";
+        console.log(token);
+        return token;
+    }
+
     return this;
 }
 

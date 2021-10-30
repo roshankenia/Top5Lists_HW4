@@ -1,43 +1,46 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 function authManager() {
-    verify = function (req, res, next) {
-        try {
-            const token = req.cookies.token;
-            if (!token) {
-                return res.status(401).json({
-                    loggedIn: false,
-                    user: null,
-                    errorMessage: "Unauthorized"
-                })
-            }
+  verify = function (req, res, next) {
+    try {
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({
+          loggedIn: false,
+          user: null,
+          errorMessage: "Unauthorized",
+        });
+      }
 
-            const verified = jwt.verify(token, process.env.JWT_SECRET)
-            req.userId = verified.userId;
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      req.userId = verified.userId;
 
-            next();
-        } catch (err) {
-            console.error(err);
-            return res.status(401).json({
-                errorMessage: "Unauthorized"
-            });
-        }
+      next();
+    } catch (err) {
+      console.error(err);
+      return res.status(401).json({
+        errorMessage: "Unauthorized",
+      });
     }
+  };
 
-    signToken = function (user) {
-        return jwt.sign({
-            userId: user._id
-        }, process.env.JWT_SECRET);
-    }
+  signToken = function (user) {
+    return jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.JWT_SECRET
+    );
+  };
 
-    deleteToken = function(req){
-        let token = req.cookies.token;
-        token="";
-        console.log(token);
-        return token;
-    }
+//   deleteToken = function (req) {
+//     let token = req.cookies.token;
+//     token = "";
+//     console.log(token);
+//     return token;
+//   };
 
-    return this;
+  return this;
 }
 
 const auth = authManager();

@@ -20,13 +20,13 @@ getLoggedIn = async (req, res) => {
 };
 
 logoutUser = async(req, res) =>{
-  token = auth.deleteToken(req);
+  //token = auth.deleteToken(req);
   await res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-      })
+      // .cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: "none",
+      // })
       .status(200)
       .json({
         loggedIn: false,

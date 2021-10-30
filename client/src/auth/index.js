@@ -58,13 +58,14 @@ function AuthContextProvider(props) {
 
   auth.logoutUser = async function () {
     //const response = await api.logoutUser();
-    let response = {status:200};
+    let response = { status: 200 };
     if (response.status === 200) {
       authReducer({
         type: AuthActionType.LOGOUT_USER,
         payload: null,
       });
-      document.cookie = "token=nothing; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "token=nothing; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       history.push("/");
     }
   };
@@ -82,22 +83,26 @@ function AuthContextProvider(props) {
         });
       }
     } catch (error) {
-        //document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        console.log('here');
+      //document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      console.log("here");
     }
   };
 
   auth.registerUser = async function (userData, store) {
-    const response = await api.registerUser(userData);
-    if (response.status === 200) {
-      authReducer({
-        type: AuthActionType.REGISTER_USER,
-        payload: {
-          user: response.data.user,
-        },
-      });
-      history.push("/");
-      store.loadIdNamePairs();
+    try {
+      const response = await api.registerUser(userData);
+      if (response.status === 200) {
+        authReducer({
+          type: AuthActionType.REGISTER_USER,
+          payload: {
+            user: response.data.user,
+          },
+        });
+        history.push("/");
+        store.loadIdNamePairs();
+      }
+    } catch (error) {
+      console.log(error.response);
     }
   };
 

@@ -252,6 +252,7 @@ function GlobalStoreContextProvider(props) {
   // FUNCTIONS ARE markListForDeletion, deleteList, deleteMarkedList,
   // showDeleteListModal, and hideDeleteListModal
   store.markListForDeletion = async function (id) {
+    console.log('marking');
     // GET THE LIST
     let ownerEmail = auth.user.email;
     let response = await api.getTop5ListById(id, {ownerEmail:ownerEmail});
@@ -265,6 +266,7 @@ function GlobalStoreContextProvider(props) {
   };
 
   store.deleteList = async function (listToDelete) {
+    console.log('deleting');
     let ownerEmail = auth.user.email;
     let response = await api.deleteTop5ListById(listToDelete._id, {ownerEmail:ownerEmail});
     if (response.data.success) {

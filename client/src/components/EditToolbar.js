@@ -23,6 +23,27 @@ function EditToolbar() {
     function handleClose() {
         store.closeCurrentList();
     }
+
+
+    let closeClass = 'top5-button-disabled';
+    let undoClass = 'top5-button-disabled';
+    let redoClass = 'top5-button-disabled';
+    let redoStatus = true;
+    let undoStatus = true;
+
+    if(store.currentList){
+        closeClass = 'top5-button';
+    }
+    if(store.canUndo()){
+        undoClass = 'top5-button';
+        undoStatus = false;
+    }
+    if(store.canRedo()){
+        redoClass = 'top5-button';
+        redoStatus = false;
+    }
+
+
     let editStatus = false;
     if (store.isListNameEditActive) {
         editStatus = true;
@@ -31,18 +52,23 @@ function EditToolbar() {
         <div id="edit-toolbar">
             <Button 
                 id='undo-button'
+                disabled={undoStatus}
                 onClick={handleUndo}
+                className={undoClass}
                 variant="contained">
                     <UndoIcon />
             </Button>
             <Button 
                 id='redo-button'
+                disabled={redoStatus}
                 onClick={handleRedo}
+                className={redoClass}
                 variant="contained">
                     <RedoIcon />
             </Button>
             <Button 
                 disabled={editStatus}
+                className={closeClass}
                 id='close-button'
                 onClick={handleClose}
                 variant="contained">

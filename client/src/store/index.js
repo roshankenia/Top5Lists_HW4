@@ -27,6 +27,8 @@ export const GlobalStoreActionType = {
   SET_CURRENT_LIST: "SET_CURRENT_LIST",
   SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
   SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+  SET_ERROR_MESSAGE: "SET_ERROR_MESSAGE",
+  REMOVE_ERROR_MESSAGE: "REMOVE_ERROR_MESSAGE",
 };
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -43,6 +45,7 @@ function GlobalStoreContextProvider(props) {
     listNameActive: false,
     itemActive: false,
     listMarkedForDeletion: null,
+    errorMessage:null
   });
   const history = useHistory();
 
@@ -63,6 +66,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // STOP EDITING THE CURRENT LIST
@@ -74,6 +78,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // CREATE A NEW LIST
@@ -85,6 +90,31 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
+        });
+      }
+
+      case GlobalStoreActionType.SET_ERROR_MESSAGE:{
+        return setStore({
+          idNamePairs: store.idNamePairs,
+          currentList: store.currentList,
+          newListCounter: store.newListCounter,
+          isListNameEditActive: false,
+          isItemEditActive: false,
+          listMarkedForDeletion: null,
+          errorMessage:payload
+        });
+      }
+
+      case GlobalStoreActionType.REMOVE_ERROR_MESSAGE:{
+        return setStore({
+          idNamePairs: store.idNamePairs,
+          currentList: store.currentList,
+          newListCounter: store.newListCounter,
+          isListNameEditActive: false,
+          isItemEditActive: false,
+          listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -96,6 +126,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // PREPARE TO DELETE A LIST
@@ -107,6 +138,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: payload,
+          errorMessage:null
         });
       }
       // PREPARE TO DELETE A LIST
@@ -118,6 +150,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // UPDATE A LIST
@@ -129,6 +162,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // START EDITING A LIST ITEM
@@ -140,6 +174,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: false,
           isItemEditActive: true,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       // START EDITING A LIST NAME
@@ -151,6 +186,7 @@ function GlobalStoreContextProvider(props) {
           isListNameEditActive: true,
           isItemEditActive: false,
           listMarkedForDeletion: null,
+          errorMessage:null
         });
       }
       default:
@@ -195,6 +231,19 @@ function GlobalStoreContextProvider(props) {
       updateList(top5List);
     }
   };
+
+  store.setErrorMessage = function(message){
+    storeReducer({
+      type: GlobalStoreActionType.SET_ERROR_MESSAGE,
+      payload: message,
+    });
+  }
+  store.removeErrorMessage = function(){
+    storeReducer({
+      type: GlobalStoreActionType.REMOVE_ERROR_MESSAGE,
+      payload: null,
+    });
+  }
 
   // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
   store.closeCurrentList = function () {

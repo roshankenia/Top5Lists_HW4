@@ -102,7 +102,8 @@ function AuthContextProvider(props) {
         store.loadIdNamePairs();
       }
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data.errorMessage);
+      store.setErrorMessage(error.response.data.errorMessage);
     }
   };
 

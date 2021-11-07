@@ -15,7 +15,7 @@ function Top5Item(props) {
   const { store } = useContext(GlobalStoreContext);
   const [editActive, setEditActive] = useState(false);
   const [draggedTo, setDraggedTo] = useState(0);
-  const { key, text, index } = props;
+  const {key, text, index } = props;
   const [input, setInput] = useState("");
 
   function handleToggleEdit(event) {
@@ -26,7 +26,11 @@ function Top5Item(props) {
   function toggleEdit() {
     let newActive = !editActive;
     if (newActive) {
+      setInput(text);
       store.setIsItemEditActive();
+    }
+    else{
+      store.removeIsItemEditActive();
     }
     setEditActive(newActive);
   }
@@ -57,7 +61,11 @@ function Top5Item(props) {
 
   function handleKeyPress(event) {
     if (event.code === "Enter") {
-      store.addUpdateItemTransaction(index, input);
+      if(input !== text){
+        console.log(input);
+        console.log(text);
+        store.addUpdateItemTransaction(index, input);
+      }
       toggleEdit();
     }
   }
@@ -73,7 +81,10 @@ function Top5Item(props) {
     );
 
     // UPDATE THE LIST
-    store.addMoveItemTransaction(sourceId, targetId);
+    if(sourceId != targetId)
+    {
+      store.addMoveItemTransaction(sourceId, targetId);
+    }
   }
 
 

@@ -16,6 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Alert from '@mui/material/Alert';
 import { GlobalStoreContext } from "../store";
 
 export default function RegisterScreen() {
@@ -50,9 +51,7 @@ export default function RegisterScreen() {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              {"Error: " + store.errorMessage}
-            </DialogTitle>
+            <Alert severity="error">{"Error: " + store.errorMessage}</Alert>
             <DialogActions>
               <Button onClick={handleCloseModal}>Close</Button>
             </DialogActions>

@@ -3,9 +3,10 @@ const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 
 getLoggedIn = async (req, res) => {
+  console.log("calling logged in");
   auth.verify(req, res, async function () {
     const loggedInUser = await User.findOne({ _id: req.userId });
-    return res
+    res
       .status(200)
       .json({
         loggedIn: true,
@@ -16,25 +17,30 @@ getLoggedIn = async (req, res) => {
         },
       })
       .send();
+    return;
   });
 };
 
-logoutUser = async(req, res) =>{
+logoutUser = async (req, res) => {
+  console.log("calling logged out");
+
   //token = auth.deleteToken(req);
   await res
-      // .cookie("token", token, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "none",
-      // })
-      .status(200)
-      .json({
-        loggedIn: false,
-      })
-      .send();
-}
+    // .cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "none",
+    // })
+    .status(200)
+    .json({
+      loggedIn: false,
+    })
+    .send();
+};
 
 loginUser = async (req, res) => {
+  console.log("calling login");
+
   try {
     const user = await User.findOne({
       email: req.body.email,
@@ -43,40 +49,43 @@ loginUser = async (req, res) => {
     // LOGIN THE USER
     let comp = await bcrypt.compare(req.body.password, user.passwordHash);
 
-    if (comp){
-        const token = auth.signToken(user);
+    if (comp) {
+      const token = auth.signToken(user);
 
-        await res
-          .cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-          })
-          .status(200)
-          .json({
-            success: true,
-            user: {
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-            },
-          })
-          .send();
+      await res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        })
+        .status(200)
+        .json({
+          success: true,
+          user: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          },
+        })
+        .send();
+    } else {
+      return res.status(400).json({
+        success: false,
+        errorMessage: "Invalid Email/Password",
+      });
     }
-    else{
-        return res.status(400).json({
-            success: false,
-            errorMessage: "Invalid Password",
-          });
-    }
-    
   } catch (err) {
     console.error(err);
-    res.status(500).send();
+    return res.status(400).json({
+      success: false,
+      errorMessage: "Invalid Email/Password",
+    });
   }
 };
 
 registerUser = async (req, res) => {
+  console.log("calling register");
+
   try {
     const { firstName, lastName, email, password, passwordVerify } = req.body;
     if (!firstName || !lastName || !email || !password || !passwordVerify) {

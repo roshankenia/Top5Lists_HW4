@@ -63,7 +63,7 @@ function GlobalStoreContextProvider(props) {
       case GlobalStoreActionType.CHANGE_LIST_NAME: {
         return setStore({
           idNamePairs: payload.idNamePairs,
-          currentList: payload.top5List,
+          currentList: store.currentList,
           newListCounter: store.newListCounter,
           isListNameEditActive: false,
           isItemEditActive: false,
@@ -195,7 +195,7 @@ function GlobalStoreContextProvider(props) {
       case GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE: {
         return setStore({
           idNamePairs: store.idNamePairs,
-          currentList: payload,
+          currentList: store.currentList,
           newListCounter: store.newListCounter,
           isListNameEditActive: true,
           isItemEditActive: false,
@@ -242,7 +242,7 @@ function GlobalStoreContextProvider(props) {
           getListPairs(top5List);
         }
       }
-      updateList(top5List);
+      updateList(top5List).then(() => store.loadIdNamePairs());
     }
   };
 

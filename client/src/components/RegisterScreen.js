@@ -16,7 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import { GlobalStoreContext } from "../store";
 
 export default function RegisterScreen() {
@@ -142,13 +142,7 @@ export default function RegisterScreen() {
               >
                 Sign Up
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/login/" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
+              <Grid container justifyContent="flex-end"></Grid>
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />
@@ -242,13 +236,7 @@ export default function RegisterScreen() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login/" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+            <Grid container justifyContent="flex-end"></Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

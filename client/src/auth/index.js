@@ -57,6 +57,8 @@ function AuthContextProvider(props) {
   };
 
   auth.logoutUser = async function () {
+    console.log("calling logged out");
+
     //const response = await api.logoutUser();
     let response = { status: 200 };
     if (response.status === 200) {
@@ -71,6 +73,7 @@ function AuthContextProvider(props) {
   };
 
   auth.getLoggedIn = async function () {
+    console.log("calling logged in");
     try {
       const response = await api.getLoggedIn();
       if (response.status === 200) {
@@ -89,6 +92,8 @@ function AuthContextProvider(props) {
   };
 
   auth.registerUser = async function (userData, store) {
+    console.log("calling register");
+
     try {
       const response = await api.registerUser(userData);
       if (response.status === 200) {
@@ -108,16 +113,23 @@ function AuthContextProvider(props) {
   };
 
   auth.loginUser = async function (userData, store) {
-    const response = await api.loginUser(userData);
-    if (response.status === 200) {
-      authReducer({
-        type: AuthActionType.LOGIN_USER,
-        payload: {
-          user: response.data.user,
-        },
-      });
-      history.push("/");
-      store.loadIdNamePairs();
+    console.log("calling login");
+
+    try {
+      const response = await api.loginUser(userData);
+      if (response.status === 200) {
+        authReducer({
+          type: AuthActionType.LOGIN_USER,
+          payload: {
+            user: response.data.user,
+          },
+        });
+        history.push("/");
+        store.loadIdNamePairs();
+      }
+    } catch (error) {
+      console.log(error.response.data.errorMessage);
+      store.setErrorMessage(error.response.data.errorMessage);
     }
   };
 
